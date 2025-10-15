@@ -85,7 +85,7 @@ app.config['SESSION_REDIS'] = Redis(
 app.cache = Cache(app, config=redis_config)
 sess = Session()
 sess.init_app(app)
-#csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 
 db = client[take_config('MONGO', required=True)['database']]
 db.users.create_index('username', unique=True)
