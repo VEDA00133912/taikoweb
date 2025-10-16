@@ -1091,7 +1091,72 @@
 		if(!this.touchEnabled && !this.portrait && !this.multiplayer){
 			this.assets.drawAssets("foreground")
 		}
-		
+
+		// show bpm
+		if (!this.multiplayer && settings.getItem("showBpm")) {
+		const bpm = (1000 / this.beatInterval * 60).toFixed(3)
+
+		this.draw.layeredText({
+				ctx, 
+				text: `BPM: ${bpm}`,
+				fontSize: 30, 
+				fontFamily: this.font, 
+				x: 30, 
+				y: frameTop + (this.portrait ? 500 : 400), 
+				width: 600, 
+				align: "left"
+			}, [{ outline: "#000", letterBorder: 10 }, { fill: "#fff" }])
+		}
+
+		// show hs
+		if (!this.multiplayer && settings.getItem("showHs")) {
+			const hsPosition = settings.getItem("showBpm")
+				? frameTop + (this.portrait ? 550 : 450)
+				: frameTop + (this.portrait ? 500 : 400)
+
+			const calculateHS = (beat, ms, measures, circles) => {
+				const BPM = (1000 / beat) * 60
+
+				const findCurrentIndex = (data, key) => {
+					let index = -2
+					for (let i = 0; i < data.length; i++) {
+						index++
+						if (ms < data[i][key]) break
+					}
+					return Math.max(index, 0)
+				};
+
+				const nowBar = findCurrentIndex(measures, "ms")
+				const nowCir = findCurrentIndex(circles, "originalMS")
+
+				const currentSpeed = nowCir < 0
+					? measures[nowBar].speed
+					: measures[nowBar].ms > circles[nowCir].originalMS
+						? measures[nowBar].speed
+						: circles[nowCir].speed
+
+				return ((currentSpeed / BPM) * 60)
+			};
+
+			const measures = this.controller.parsedSongData.measures
+			const circles = this.controller.getCircles()
+			const baseHS = calculateHS(this.beatInterval, this.ms, measures, circles)
+
+			const baisoku = parseFloat(localStorage.getItem("baisoku") ?? "1")
+			const hsValue = (baseHS * baisoku).toFixed(3)
+
+			this.draw.layeredText({
+				ctx: ctx,
+				text: `HS : ${hsValue}`,
+				fontSize: 30,
+				fontFamily: this.font,
+				x: 30,
+				y: hsPosition,
+				width: 600,
+				align: "left"
+			}, [{ outline: "#000", letterBorder: 10 }, { fill: "#fff" }])
+		}
+
 		// Pause screen
 		if(!this.multiplayer && this.controller.game.paused){
 			ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
