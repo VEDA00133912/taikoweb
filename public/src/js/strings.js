@@ -70,7 +70,7 @@ var translations = {
 		tw: "返回",
 		ko: "돌아가기"
 	},
-	search: {
+	songSearch: {
 		ja: "検索",
 		en: "Search",
 		cn: "搜索",
@@ -126,6 +126,13 @@ var translations = {
 		tw: "選項",
 		ko: "옵션"
 	},
+	setting: {
+		ja: "設定",
+		en: "Settings",
+		cn: "设定",
+		tw: "設定",
+		ko: "설정"
+	},
 	gameSettings: {
 		ja: "ゲーム設定",
 		en: "Game Settings",
@@ -168,12 +175,26 @@ var translations = {
 		tw: "上傳歌曲",
 		ko: "곡 업로드"
 	},
+	keijiban: {
+		ja: "掲示板",
+		en: "Bulletin Board",
+		cn: "公告栏",
+		tw: "留言板",
+		ko: "게시판",
+	},
 	titleSort: {
 		ja: "タイトル順に並び替え",
 		en: "Sort by Title",
 		cn: "按标题排序",
 		tw: "依標題排序",
 		ko: "제목순으로 정렬"
+	},
+	hs: {
+		ja: "ハイスピ設定",
+		en: "High-Speed Settings",
+		cn: "高速设置",
+		tw: "高速設定",
+		ko: "하이스피드 설정",
 	},
 	baisoku: {
 		ja: 'ばいそく',

@@ -16,11 +16,6 @@ class SongSelect{
 		if(resolution === "lowest"){
 			this.canvas.style.imageRendering = "pixelated"
 		}
-
-		let rand = () => {
-			let color = Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
-			return `#${color}`;
-		}
 	
 		this.songSkin = {
 			"selected": {
@@ -75,31 +70,30 @@ class SongSelect{
 				border: ["#fde9df", "#ce7553"],
 				outline: "#ce7553"
 			},
-                        // カスタム曲スキン
-                        "upload": {
-                            sort: 0,
-                            background: "#ffe57f",
-                            border: ["#ffd54f", "#ff9800"],
-                            outline: "#ffab40",
-                        },
-						"keijiban": {
-                            sort: 0,
-                            background: "#1c1c1c",
-                            border: ["#000000", "#333333"],
-                            outline: "#222222",
-                        },
-				"customSettings": {
-    				sort: 0,
-    				background: "#a5d6a7",  // 緑色の背景
-    				border: ["#81c784", "#66bb6a"],  // 緑色の境界線
-    				outline: "#388e3c"  // 緑色のアウトライン
-				},
+			"upload": {
+				sort: 0,
+				background: "#ffe57f",
+				border: ["#ffd54f", "#ff9800"],
+				outline: "#ffab40"
+			},
+			"keijiban": {
+				sort: 0,
+				background: "#1c1c1c",
+				border: ["#000000", "#333333"],
+				outline: "#222222"
+			},
+			"customSettings": {
+				sort: 0,
+				background: "#a5d6a7",
+				border: ["#81c784", "#66bb6a"],
+				outline: "#388e3c"
+			},
 			"default": {
 				sort: null,
-				background: `${rand()}`,
-				border: [`${rand()}`, `${rand()}`],
-				outline: `#333333`,
-				infoFill: `${rand()}`
+				background: "#f9f9f9",
+				border: ["#e0e0e0", "#cccccc"],
+				outline: "#8a8a8aff",
+				infoFill: "#ffffff"
 			}
 		}
 		
@@ -149,7 +143,8 @@ class SongSelect{
 			this.songs.push({
 				title: strings.back,
 				skin: this.songSkin.back,
-				action: "back"
+				action: "back",
+				category: strings.back
 			})
 			this.songs.push({
 				title: strings.randomSong,
@@ -163,7 +158,7 @@ class SongSelect{
 				title: strings.search.search,
 				skin: this.songSkin.search,
 				action: "search",
-				category: strings.random,
+				category: strings.songSearch,
 				p2Enabled: true
 			})
 		}
@@ -176,7 +171,7 @@ class SongSelect{
 				title: strings.howToPlay,
 				skin: this.songSkin.tutorial,
 				action: "tutorial",
-				category: strings.random
+				category: strings.howto
 			})
 		}
 		this.showWarning = showWarning
@@ -187,13 +182,13 @@ class SongSelect{
 			title: strings.aboutSimulator,
 			skin: this.songSkin.about,
 			action: "about",
-			category: strings.random
+			category: strings.howto
 		})
 		this.songs.push({
 			title: strings.gameSettings,
 			skin: this.songSkin.settings,
 			action: "settings",
-			category: strings.random
+			category: strings.setting
 		})
 		
 		var showCustom = false
@@ -207,76 +202,84 @@ class SongSelect{
 				title: assets.customSongs ? strings.customSongs.default : strings.customSongs.title,
 				skin: this.songSkin.customSongs,
 				action: "customSongs",
-				category: strings.random
+				category: strings.custom
 			})
 		}
 		this.songs.push({
 			title: strings.plugins.title,
 			skin: this.songSkin.plugins,
 			action: "plugins",
-			category: strings.random
+			category: strings.custom
 		})
 
-                // カスタムメニュー
-                // this.songs.push({
-                //     title: "ソースコード",
-                //     skin: this.songSkin.sourceCode,
-                //     action: "sourceCode",
-                // });
-				// for (let i = 0; i < 10; i++) {
-				    this.songs.push({
-                        title: "曲を投稿！",
-                        skin: this.songSkin.upload,
-                        action: "upload",
-                    });
-                // }
-				this.songs.push({
-					title: "掲示板",
-					skin: this.songSkin.keijiban,
-					action: "keijiban",
-				});
+		// カスタムメニュー
+		// this.songs.push({
+		//     title: "ソースコード",
+		//     skin: this.songSkin.sourceCode,
+		//     action: "sourceCode",
+		// });
+		// for (let i = 0; i < 10; i++) {
+		this.songs.push({
+			title: strings.addSong,
+			skin: this.songSkin.upload,
+			action: "upload",
+			category: strings.custom
+		});
+		// }
+		this.songs.push({
+			title: strings.keijiban,
+			skin: this.songSkin.keijiban,
+			action: "keijiban",
+			category: strings.keijiban
+		});
 
-				this.songs.push({
-					title: "曲選択速度",
-					skin: this.songSkin.customSettings,
-					action: "songSelectingSpeed",
-				});
-		
-				this.songs.push({
-					title: "ばいそく",
-					skin: this.songSkin.customSettings,
-					action: "baisoku",
-				});
+		this.songs.push({
+			title: strings.selectSpeed,
+			skin: this.songSkin.customSettings,
+			action: "songSelectingSpeed",
+			category: strings.options
+		});
 
-				this.songs.push({
-					title: "ドロン",
-					skin: this.songSkin.customSettings,
-					action: "doron",
-				});
+		this.songs.push({
+			title: strings.hs,
+			skin: this.songSkin.customSettings,
+			action: "baisoku",
+			category: strings.options
+		});
 
-				this.songs.push({
-					title: "あべこべ",
-					skin: this.songSkin.customSettings,
-					action: "abekobe",
-				});
+		this.songs.push({
+			title: strings.doron,
+			skin: this.songSkin.customSettings,
+			action: "doron",
+			category: strings.options
+		});
 
-				this.songs.push({
-					title: "でたらめ",
-					skin: this.songSkin.customSettings,
-					action: "detarame",
-				});
+		this.songs.push({
+			title: strings.abekobe,
+			skin: this.songSkin.customSettings,
+			action: "abekobe",
+			category: strings.options
+		});
 
+		this.songs.push({
+			title: strings.detarame,
+			skin: this.songSkin.customSettings,
+			action: "detarame",
+			category: strings.options
+		});
 
-				this.songs.push({
-					title: "タイトル順で並べ替え",
-					skin: this.songSkin.customSettings,
-					action: "titlesort",
-				});
+		this.songs.push({
+			title: strings.titleSort,
+			skin: this.songSkin.customSettings,
+			action: "titlesort",
+			category: strings.options
+		});
 
 		this.songs.push({
 			title: strings.back,
 			skin: this.songSkin.back,
-			action: "back"
+			action: "back",
+			category: strings.back
 		})
 		
 		this.songAsset = {
@@ -305,13 +308,13 @@ class SongSelect{
 			iconFill: "#d9f19f",
 			letterSpacing: 0
 		}, {
-			text: "ダウンロード",
+			text: strings.download,
 			fill: "#e7a9da",
 			iconName: "download",
 			iconFill: "#e7cbe1",
 			letterSpacing: 4
 		}, {
-			text: "削除",
+			text: strings.delete,
 			fill: "silver",
 			iconName: "trash",
 			iconFill: "#111111",
