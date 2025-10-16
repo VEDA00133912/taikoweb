@@ -9,8 +9,8 @@ class ScoreStorage{
 		this.requestedP2 = new Set()
 		this.songTitles = {}
 		this.difficulty = ["oni", "ura", "hard", "normal", "easy"]
-		this.scoreKeys = ["points", "good", "ok", "bad", "maxCombo", "drumroll"]
-		this.crownValue = ["", "silver", "gold"]
+		this.scoreKeys = ["points", "good", "ok", "bad", "maxCombo", "drumroll", "rainbow"]
+		this.crownValue = ["", "silver", "gold", "rainbow"]
 	}
 	load(strings, loadFailed){
 		var scores = {}
@@ -52,7 +52,13 @@ class ScoreStorage{
 							if(value < 0){
 								value = 0
 							}
+							if(name === "rainbow" && value){
+								score.crown = "rainbow"
+							}
 							score[name] = value
+						}
+						if(score.crown === "gold" && score.good >= 1 && score.ok === 0 && score.bad === 0){
+							score.crown = "rainbow"
 						}
 						if(!songAdded){
 							scores[hash] = {title: null}
@@ -121,7 +127,8 @@ class ScoreStorage{
 			var diff = this.difficulty[i]
 			if(score[diff]){
 				var scoreArray = []
-				var crown = this.crownValue.indexOf(score[diff].crown).toString()
+				score[diff].rainbow = score[diff].crown === "rainbow"				
+				var crown = score[diff].crown === "rainbow" ? "2" : this.crownValue.indexOf(score[diff].crown).toString()
 				for(var j in this.scoreKeys){
 					var name = this.scoreKeys[j]
 					var value = score[diff][name]
