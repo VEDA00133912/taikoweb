@@ -1928,19 +1928,28 @@ class SongSelect{
 								outlineSize: songSel ? 0 : this.songAsset.letterBorder
 							})
 						}else{
-							for(var j = 0; j < 10; j++){
-								if(songSel){
-									var yPos = _y + 113 + j * 17
-								}else{
-									var yPos = _y + 178 + j * 19.5
-								}
-								if(10 - j > songStars){
+							for (var j = 0; j < 10; j++) {
+								let yPos = songSel ? _y + 113 + j * 17 : _y + 178 + j * 19.5
+
+								if (10 - j > songStars) {
 									ctx.fillStyle = currentUra ? "#187085" : (songSel ? "#e97526" : "#e7e7e7")
 									ctx.beginPath()
 									ctx.arc(_x, yPos, songSel ? 4.5 : 5, 0, Math.PI * 2)
 									ctx.fill()
-								}else{
+								} else {
+									let colorType
+									if (songStars >= (10 - j) + 30) {
+										colorType = "black"
+									} else if (songStars >= (10 - j) + 20) {
+										colorType = "blue"
+									} else if (songStars >= (10 - j) + 10) {
+										colorType = "red"
+									} else {
+										colorType = "white"
+									}
+
 									this.draw.diffStar({
+										colorType: colorType,
 										ctx: ctx,
 										songSel: songSel,
 										ura: currentUra,

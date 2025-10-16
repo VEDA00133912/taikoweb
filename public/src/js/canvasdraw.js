@@ -1170,45 +1170,57 @@
 		ctx.restore()
 	}
 	
-	diffStar(config){
-		var ctx = config.ctx
-		ctx.save()
-		if(config.songSel || config.ura){
-			if(this.diffStarCache.scale !== config.ratio){
-				this.diffStarCache.resize(62, 31, config.ratio)
+	diffStar(config) {
+		var ctx = config.ctx;
+		ctx.save();
+
+		const colorMap = {
+			white: config.songSel || config.ura ? "#fff" : "#f72568",
+			red:   config.songSel || config.ura ? "#f00" : "#801235",
+			blue:  config.songSel || config.ura ? "#6c2be7" : "#503181",
+			black: "#000"
+		};
+
+		const color = colorMap[config.colorType] ?? "#fff";
+
+		if (config.songSel || config.ura) {
+			if (this.diffStarCache.scale !== config.ratio) {
+				this.diffStarCache.resize(62, 31, config.ratio);
 			}
-			var offset = 30 / 2 - 18 / 2
-			var big = config.ura && !config.songSel
+			var offset = 30 / 2 - 18 / 2;
+			var big = config.ura && !config.songSel;
+
 			this.diffStarCache.get({
 				ctx: ctx,
 				x: config.x - 9 - offset,
 				y: config.y - 9 - offset,
 				w: 30,
 				h: 30,
-				id: big ? "big" : "small"
+				id: (big ? "big" : "small") + config.colorType
 			}, ctx => {
-				ctx.fillStyle = "#fff"
+				ctx.fillStyle = color;
 				this.shadow({
 					ctx: ctx,
-					fill: "#fff",
+					fill: color,
 					blur: 10,
 					force: true
-				})
-				if(big){
-					ctx.translate(30 / 2 - 21 / 2, 30 / 2 - 19 / 2)
-					ctx.scale(1.1, 1.1)
-				}else{
-					ctx.translate(offset, offset)
+				});
+				if (big) {
+					ctx.translate(30 / 2 - 21 / 2, 30 / 2 - 19 / 2);
+					ctx.scale(1.1, 1.1);
+				} else {
+					ctx.translate(offset, offset);
 				}
-				ctx.fill(this.diffStarPath)
-			})
-		}else{
-			ctx.fillStyle = "#f72568"
-			ctx.translate(config.x - 10.5, config.y - 9.5)
-			ctx.scale(1.1, 1.1)
-			ctx.fill(this.diffStarPath)
+				ctx.fill(this.diffStarPath);
+			});
+		} else {
+			ctx.fillStyle = color;
+			ctx.translate(config.x - 10.5, config.y - 9.5);
+			ctx.scale(1.1, 1.1);
+			ctx.fill(this.diffStarPath);
 		}
-		ctx.restore()
+
+		ctx.restore();
 	}
 	
 	pattern(config){
