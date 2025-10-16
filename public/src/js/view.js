@@ -1717,8 +1717,32 @@
 				size = circleSize
 				faceID = noteFace.small
 				var h = size * 1.8
-				if(circleMs + this.controller.audioLatency < ms && ms <= endTime + this.controller.audioLatency){
+				var audioMS = this.getAudioMS()
+				if (circleMs < audioMS && audioMS <= endTime) {
 					circlePos.x = this.slotPos.x
+					circlePos.y = this.slotPos.y
+					const remainingHits = circle.requiredHits - circle.timesHit
+					ctx.drawImage(
+						assets.image['balloon_count'],
+						circlePos.x - size / 2,
+						circlePos.y - h / 2 - 180,
+						240,
+						160
+					)
+					ctx.font = '50px TnT'
+					ctx.lineWidth = 10
+					ctx.strokeStyle = '#000000'
+					ctx.fillStyle = '#FFFFFF'
+					ctx.textAlign = 'center'
+					ctx.textBaseline = 'middle'
+					ctx.miterLimit = 1
+
+					const text = remainingHits.toString()
+					const x = circlePos.x + 103
+					const y = circlePos.y - h / 2 - 105
+
+					ctx.strokeText(text, x, y)
+					ctx.fillText(text, x, y)
 				}else if(ms > endTime + this.controller.audioLatency){
 					circlePos.x = this.slotPos.x + this.msToPos(endTime - ms + this.controller.audioLatency, speed)
 				}
@@ -1733,6 +1757,12 @@
 			}
 		}else if(type === "drumroll" || type === "daiDrumroll"){
 			fill = "#f3b500"
+			if (circle.timesHit) {
+				fill = "#ff0000"
+				setTimeout(() => {
+					fill = "f3b500"
+				}, 1000)
+			}
 			if(type == "drumroll"){
 				size = circleSize
 				faceID = noteFace.small
@@ -1753,6 +1783,34 @@
 				ctx.lineTo(circlePos.x, circlePos.y + size - 1.5)
 				ctx.fill()
 				ctx.stroke()
+			}
+			
+			var audioMS = this.getAudioMS()
+			if (circle.timesHit > 0 && audioMS < endTime + 2000) {
+				const remainingHits = circle.timesHit
+				const h = size * 1.8
+
+				const fixedX = this.slotPos.x - 80
+				const fixedY = this.slotPos.y - h / 2 - 180
+
+				ctx.drawImage(
+					assets.image['renda_count'],
+					fixedX - size / 2,
+					fixedY,
+					240,
+					160
+				)
+
+				ctx.font = '50px TnT'
+				ctx.fillStyle = '#000000'
+				ctx.textAlign = 'center'
+				ctx.textBaseline = 'middle'
+
+				const text = remainingHits.toString()
+				const textX = fixedX + 100
+				const textY = fixedY + 75
+
+				ctx.fillText(text, textX, textY)
 			}
 		}
 
@@ -2270,6 +2328,9 @@
 	}
 	getMS(){
 		return this.ms
+	}
+	getAudioMS() {
+		return this.ms - this.controller.audioLatency
 	}
 	clean(){
 		this.draw.clean()
