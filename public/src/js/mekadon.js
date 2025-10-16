@@ -20,9 +20,9 @@ class Mekadon{
 		}
 		type = circle.type
 		if(type === "balloon"){
-			return this.playDrumrollAt(circle, 0, 30)
+			return this.playDrumrollAt(circle, 0, 10)
 		}else if(type === "drumroll" || type === "daiDrumroll"){
-			return this.playDrumrollAt(circle, 0, 60)
+			return this.playDrumrollAt(circle, 0, 10)
 		}else{
 			return this.playAt(circle, 0, 450)
 		}

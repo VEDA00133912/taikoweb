@@ -53,6 +53,7 @@ class Controller{
 		var maxCombo = this.parsedSongData.circles.filter(circle => ["don", "ka", "daiDon", "daiKa"].indexOf(circle.type) > -1 && (!circle.branch || circle.branch.name == "master")).length
 		if (maxCombo >= 50) {
 			var comboVoices = ["v_combo_50"].concat(Array.from(Array(Math.min(50, Math.floor(maxCombo / 100))), (d, i) => "v_combo_" + ((i + 1) * 100)))
+			if (this.autoPlayEnabled) comboVoices = comboVoices.concat(["v_meka_combo_50"].concat(Array.from(Array(Math.min(19, Math.floor(maxCombo / 100))), (d, i) => "v_meka_combo_" + ((i + 1) * 100))).concat("v_meka_combo_over"))
 			var promises = []
 			
 			comboVoices.forEach(name => {
@@ -232,16 +233,23 @@ class Controller{
 		var score = this.getGlobalScore()
 		var vp
 		if(this.game.rules.clearReached(score.gauge)){
-			if(score.bad === 0){
+			if(score.ok === 0 && score.bad === 0){
+				vp = "donderfulcombo"
+				if(this.autoPlayEnabled) {
+					this.playSound("v_meka_donderfulcombo", 0.050, true)
+				}else{
+					this.playSound("v_donderfulcombo", 0.050, true)
+				}
+			}else if(score.bad === 0){
 				vp = "fullcombo"
-				this.playSound("v_fullcombo", 1.350)
+				this.playSound("v_fullcombo", 1.350, true)
 			}else{
 				vp = "clear"
 			}
 		}else{
 			vp = "fail"
 		}
-		this.playSound("se_game" + vp)
+			this.playSound("se_game" + vp)
 	}
 	displayResults(){
 		if(this.multiplayer !== 2){
