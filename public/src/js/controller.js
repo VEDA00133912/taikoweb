@@ -90,8 +90,8 @@ class Controller{
 		
 		this.game = new Game(this, this.selectedSong, this.parsedSongData)
 		this.view = new View(this)
-		if (parseFloat(localStorage.getItem("baisoku") ?? "1", 10) !== 1) {
-			this.saveScore = false;
+		if (localStorage.getItem("allKat") === "true" || localStorage.getItem("allDon") === "true") {
+			this.saveScore = false
 		}
 		this.mekadon = new Mekadon(this, this.game)
 		this.keyboard = new GameInput(this)

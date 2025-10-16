@@ -517,6 +517,8 @@
 
 				const abekobe = localStorage.getItem("abekobe") ?? "false";
 				const detarame = parseFloat(localStorage.getItem("detarame") ?? "0", 10);
+				const allDon = localStorage.getItem("allDon") ?? "false"
+				const allKat = localStorage.getItem("allKat") ?? "false"
 
 				for(let symbol of string){
 
@@ -549,6 +551,16 @@
 								const secondIndex = Math.floor(Math.random() * second.length);
 								symbol = second[secondIndex];
 							}
+						}
+					}
+
+					if (allDon === "true") {
+						if (["2", "4", "A", "B"].includes(symbol)) {
+							symbol = (symbol === "4" || symbol === "B") ? "3" : "1";
+						}
+					} else if (allKat === "true") {
+						if (["1", "3", "A", "B"].includes(symbol)) {
+							symbol = (symbol === "3" || symbol === "B") ? "4" : "2";
 						}
 					}
 

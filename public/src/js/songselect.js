@@ -224,56 +224,70 @@ class SongSelect{
 			skin: this.songSkin.upload,
 			action: "upload",
 			category: strings.custom
-		});
+		})
 		// }
 		this.songs.push({
 			title: strings.keijiban,
 			skin: this.songSkin.keijiban,
 			action: "keijiban",
 			category: strings.keijiban
-		});
+		})
 
 		this.songs.push({
 			title: strings.selectSpeed,
 			skin: this.songSkin.customSettings,
 			action: "songSelectingSpeed",
 			category: strings.options
-		});
+		})
 
 		this.songs.push({
 			title: strings.hs,
 			skin: this.songSkin.customSettings,
 			action: "baisoku",
 			category: strings.options
-		});
+		})
 
 		this.songs.push({
 			title: strings.doron,
 			skin: this.songSkin.customSettings,
 			action: "doron",
 			category: strings.options
-		});
+		})
 
 		this.songs.push({
 			title: strings.abekobe,
 			skin: this.songSkin.customSettings,
 			action: "abekobe",
 			category: strings.options
-		});
+		})
 
 		this.songs.push({
 			title: strings.detarame,
 			skin: this.songSkin.customSettings,
 			action: "detarame",
 			category: strings.options
-		});
+		})
+
+		this.songs.push({
+			title: strings.allDon,
+			skin: this.songSkin.customSettings,
+			action: "allDon",
+			category: strings.options
+		})
+
+		this.songs.push({
+			title: strings.allKat,
+			skin: this.songSkin.customSettings,
+			action: "allKat",
+			category: strings.options
+		})
 
 		this.songs.push({
 			title: strings.titleSort,
 			skin: this.songSkin.customSettings,
 			action: "titlesort",
 			category: strings.options
-		});
+		})
 
 		this.songs.push({
 			title: strings.back,
@@ -909,115 +923,158 @@ class SongSelect{
 			}else if(currentSong.action === "plugins"){
 				this.toPlugins()
 			}
-                        // カスタムメニューの実行処理
-                        else if (currentSong.action === "sourceCode") {
-                            this.playSound("se_don");
-                            setTimeout(() => {
-                                open("https://github.com/yuukialpha/taiko-web","_blank");
-                            }, 500);
-                        } else if (currentSong.action === "upload") {
-                            this.playSound("se_don");
-                            setTimeout(() => {
-                                window.location.href = "/upload/";
-                            }, 100);
-                        } else if (currentSong.action === "keijiban") {
-							this.playSound("se_don");
-                            setTimeout(() => {
-                                window.location.href = "https://litey.trade/";
-                            }, 100);
-						} else if (currentSong.action === "songSelectingSpeed") {
-							this.playSound("se_don");
-							setTimeout(() => {
-								let songSelectingSpeed = localStorage.getItem("sss") ?? "400";
-								const pro = prompt("曲選択速度を入力してね！", songSelectingSpeed);
-								if (pro === null) {
-									// キャンセル
-								} else if (pro === "") {
-									songSelectingSpeed = "400";
-								} else {
-									songSelectingSpeed = pro;
-								}
-								const preValue = localStorage.getItem("sss") ?? "400";
-								localStorage.setItem("sss", songSelectingSpeed.toString());
-								if (preValue !== songSelectingSpeed) {
-									location.reload();
-								}
-							}, 100);
-						} else if (currentSong.action === "baisoku") {
-							this.playSound("se_don");
-							setTimeout(() => {
-								let baisoku = localStorage.getItem("baisoku") ?? "1";
-								const input = prompt("ばいそくの倍率を入力してね！", baisoku);
-								if (input === null) {
-									// キャンセル
-								} else if (input === "") {
-									baisoku = "1";
-								} else {
-									baisoku = input;
-								}
-								localStorage.setItem("baisoku", baisoku.toString());
-							}, 100);
-						} else if (currentSong.action === "doron") {
-							this.playSound("se_don");
-							setTimeout(() => {
-								let doron = localStorage.getItem("doron") ?? "false";
-								const input = prompt("ドロンを有効にするには\"true\"を入力してね！", doron);
-								if (input === null) {
-									// キャンセル
-								} else if (input === "") {
-									doron = "false";
-								} else {
-									doron = input;
-								}
-								localStorage.setItem("doron", doron);
-							}, 100);
-						} else if (currentSong.action === "abekobe") {
-							this.playSound("se_don");
-							setTimeout(() => {
-								let abekobe = localStorage.getItem("abekobe") ?? "false";
-								const input = prompt("あべこべを有効にするには\"true\"を入力してね！", abekobe);
-								if (input === null) {
-									// キャンセル
-								} else if (input === "") {
-									abekobe = "false";
-								} else {
-									abekobe = input;
-								}
-								localStorage.setItem("abekobe", abekobe);
-							}, 100);
-						} else if (currentSong.action === "detarame") {
-							this.playSound("se_don");
-							setTimeout(() => {
-								let detarame = localStorage.getItem("detarame") ?? "0";
-								const input = prompt("でたらめになる確率をパーセントで入力してね！", detarame);
-								if (input === null) {
-									// キャンセル
-								} else if (input === "") {
-									detarame = "0";
-								} else {
-									detarame = input;
-								}
-								localStorage.setItem("detarame", detarame);
-							}, 100);
-						} else if (currentSong.action === "titlesort") {
-							this.playSound("se_don");
-							setTimeout(() => {
-								let titlesort = localStorage.getItem("titlesort") ?? "false";
-								const input = prompt("タイトル順で並べ替えするには\"true\"を入力してね！", titlesort);
-								if (input === null) {
-									// キャンセル
-								} else if (input === "") {
-									titlesort = "false";
-								} else {
-									titlesort = input;
-								}
-								const preValue = localStorage.getItem("titlesort") ?? "false";
-								localStorage.setItem("titlesort", titlesort);
-								if (preValue !== titlesort) {
-									location.reload();
-								}
-							}, 100);
+			// カスタムメニューの実行処理
+			// else if (currentSong.action === "sourceCode") {
+			// 	this.playSound("se_don")
+			// 	setTimeout(() => {
+			// 		open("https://github.com/yuukialpha/taiko-web","_blank")
+			// 	}, 500)
+			// } 
+			else if (currentSong.action === "upload") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					open("/upload/", "_blank")
+				}, 100)
+			} else if (currentSong.action === "keijiban") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					open("https://litey.trade/", "_blank")
+				}, 100)
+			} else if (currentSong.action === "songSelectingSpeed") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let songSelectingSpeed = localStorage.getItem("sss") ?? "400"
+					let pro
+					while (true) {
+						pro = prompt("曲選択速度を入力してね！", songSelectingSpeed)
+						if (pro === null) {
+							return
+						} else if (pro === "") {
+							songSelectingSpeed = "400"
+							break
+						} else if (isNaN(Number(pro))) {
+							alert("数値を入力してください")
+						} else {
+							songSelectingSpeed = Number(pro) === 0 ? "400" : pro
+							break
 						}
+					}
+
+					const preValue = localStorage.getItem("sss") ?? "400"
+					localStorage.setItem("sss", songSelectingSpeed.toString())
+					if (preValue !== songSelectingSpeed) {
+						location.reload()
+					}
+				}, 100)
+			} else if (currentSong.action === "baisoku") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let baisoku = localStorage.getItem("baisoku") ?? "1"
+					while (true) {
+						const input = prompt("HSの速度を入力してね！", baisoku)
+						if (input === null) {
+							return
+						}
+						const value = parseFloat(input)
+
+						if (!isNaN(value)) {
+							const finalValue = value === 0 ? 1 : value
+							localStorage.setItem("baisoku", finalValue.toString())
+							break
+						} else {
+							alert("数値を入力してください")
+						}
+					}
+				}, 100)
+			} else if (currentSong.action === "doron") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let doron = localStorage.getItem("doron") === "true"
+					const message = doron ? "ドロンを無効にしますか？" : "ドロンを有効にしますか？"
+					const result = confirm(message)
+					localStorage.setItem("doron", result ? (!doron).toString() : doron.toString())
+				}, 100)
+			} else if (currentSong.action === "abekobe") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let abekobe = localStorage.getItem("abekobe") === "true"
+					const message = abekobe ? "あべこべを無効にしますか？" : "あべこべを有効にしますか？"
+					const result = confirm(message)
+					localStorage.setItem("abekobe", result ? (!abekobe).toString() : abekobe.toString())
+				}, 100)
+			} else if (currentSong.action === "detarame") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let detarame = localStorage.getItem("detarame") ?? "0"
+					let input
+					while (true) {
+						input = prompt(
+							"でたらめになる確率をパーセントで入力してね！\nきまぐれ: 25%, でたらめ: 50%",
+							detarame
+						)
+						if (input === null) {
+							return
+						} else if (input === "") {
+							detarame = "0"
+							break
+						} else if (isNaN(Number(input)) || Number(input) < 0 || Number(input) > 100) {
+							alert("0〜100の数値を入力してください")
+						} else {
+							detarame = input
+							break
+						}
+					}
+					localStorage.setItem("detarame", detarame)
+				}, 100)
+			} else if (currentSong.action === "allDon") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let allDon = localStorage.getItem("allDon") === "true"
+					const message = allDon ? "全音符ドン化を無効にしますか？" : "全音符ドン化を有効にしますか？\n(全音符カッ化は無効化されます)"
+					const result = confirm(message)
+
+					if (result) {
+						allDon = !allDon
+						localStorage.setItem("allDon", allDon.toString())
+
+						if (allDon) {
+							localStorage.setItem("allKat", "false")
+						}
+					}
+				}, 100)
+			} else if (currentSong.action === "allKat") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let allKat = localStorage.getItem("allKat") === "true"
+					const message = allKat ? "全音符カッ化を無効にしますか？" : "全音符カッ化を有効にしますか？\n(全音符ドン化は無効化されます)"
+					const result = confirm(message)
+
+					if (result) {
+						allKat = !allKat
+						localStorage.setItem("allKat", allKat.toString())
+
+						if (allKat) {
+							localStorage.setItem("allDon", "false")
+						}
+					}
+				}, 100)
+			} else if (currentSong.action === "titlesort") {
+				this.playSound("se_don")
+				setTimeout(() => {
+					let titlesort = localStorage.getItem("titlesort") === "true"
+					const input = confirm(titlesort 
+						? "タイトル順で並べ替えを無効にしますか？" 
+						: "タイトル順で並べ替えを有効にしますか？"
+					)
+					if (input !== null) {
+						localStorage.setItem("titlesort", input.toString())
+						const preValue = localStorage.getItem("titlesort") ?? "false"
+						if (preValue !== input.toString()) {
+							location.reload()
+						}
+					}
+				}, 100)
+			}
 		}
 		this.pointer(false)
 	}
