@@ -249,6 +249,7 @@ class Controller{
 		}else{
 			vp = "fail"
 		}
+		if(vp && vp !== "donderfulcombo")
 			this.playSound("se_game" + vp)
 	}
 	displayResults(){
