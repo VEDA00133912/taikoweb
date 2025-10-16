@@ -62,9 +62,9 @@ class LoadSong{
 		song.songBg = this.randInt(1, 5)
 		song.songStage = this.randInt(1, 3)
 		song.donBg = this.randInt(1, 6)
-		if(this.songObj && this.songObj.category_id === 9){
+		if(this.songObj && this.songObj.video === true){
 			 LoadSong.insertBackgroundVideo(this.songObj.id)
-				}
+		}
 		if(song.songSkin && song.songSkin.name){
 			var imgLoad = []
 			for(var type in song.songSkin){
@@ -393,6 +393,21 @@ class LoadSong{
         document.body.appendChild(video);
         window.videoElement = video;
     }
-
+	static pauseBackgroundVideo() {
+		if (window.videoElement)
+			 window.videoElement.pause()
+	}
+	static resumeBackgroundVideo(ms) {
+		if (!window.videoElement)
+			return
+		if (ms >= 0) {
+			if (!window.videoElement.paused)
+				window.videoElement.pause()
+			window.videoElement.currentTime = ms / 1000
+		}
+		window.videoElement.play().catch(error => {
+			console.error("Error resuming background video:", error);
+		});
+	}
 	
 }

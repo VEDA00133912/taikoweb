@@ -297,10 +297,11 @@ class Controller{
 							songObj.lyricsData = result
 						}, () => Promise.resolve()), songObj.lyricsFile.url)
 					}
-					if(songObj && songObj.category_id === 9){
+					if(songObj && songObj.video === true){
 					    LoadSong.insertBackgroundVideo(songObj.id)
 					}
 					Promise.all(promises).then(resolve)
+					LoadSong.resumeBackgroundVideo()
 				}
 			}).then(() => {
 				var taikoGame = new Controller(this.selectedSong, this.songData, this.autoPlayEnabled, false, this.touchEnabled)

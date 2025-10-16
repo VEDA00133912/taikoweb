@@ -544,6 +544,7 @@ class Game{
 				}
 			}else if(this.controller.multiplayer !== 2 && this.mainAsset){
 				this.mainAsset.play((ms < 0 ? -ms : 0) / 1000, false, Math.max(0, ms / 1000))
+				LoadSong.resumeBackgroundVideo(ms)
 			}
 			this.mainMusicPlaying = true
 		}
@@ -561,6 +562,7 @@ class Game{
 			if(this.mainAsset){
 				this.mainAsset.stop()
 			}
+			LoadSong.pauseBackgroundVideo()
 			this.mainMusicPlaying = false
 			this.view.pauseMove(pauseMove || 0, true)
 			this.view.gameDiv.classList.add("game-paused")

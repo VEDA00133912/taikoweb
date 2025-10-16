@@ -2217,7 +2217,7 @@ class SongSelect{
 					ctx.fill()
 				}
 				if (songSel && hasVideo) {
-					var _x = x + 230;
+					var _x = x + 210;
 					var _y = y - 13;
 
 					// Icon dimensions and positions

@@ -342,6 +342,7 @@ def route_admin_songs_new_post():
     output['volume'] = float(request.form.get('volume')) or None
     output['maker_id'] = int(request.form.get('maker_id')) or None
     output['lyrics'] = True if request.form.get('lyrics') else False
+    outout['video'] = True if request.form.get('video') else False
     output['hash'] = request.form.get('hash')
     
     seq = db.seq.find_one({'name': 'songs'})
@@ -403,6 +404,7 @@ def route_admin_songs_id_post(id):
     output['volume'] = float(request.form.get('volume')) or None
     output['maker_id'] = int(request.form.get('maker_id')) or None
     output['lyrics'] = True if request.form.get('lyrics') else False
+    output['video'] = True if request.form.get('video') else False
     output['hash'] = request.form.get('hash')
     
     hash_error = False
