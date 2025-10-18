@@ -219,19 +219,19 @@ class SongSelect{
 		//     action: "sourceCode",
 		// });
 		// for (let i = 0; i < 10; i++) {
-		this.songs.push({
-			title: strings.addSong,
-			skin: this.songSkin.upload,
-			action: "upload",
-			category: strings.custom
-		})
+		// this.songs.push({
+		// 	title: strings.addSong,
+		// 	skin: this.songSkin.upload,
+		// 	action: "upload",
+		// 	category: strings.custom
+		// })
 		// }
-		this.songs.push({
-			title: strings.keijiban,
-			skin: this.songSkin.keijiban,
-			action: "keijiban",
-			category: strings.keijiban
-		})
+		// this.songs.push({
+		// 	title: strings.keijiban,
+		// 	skin: this.songSkin.keijiban,
+		// 	action: "keijiban",
+		// 	category: strings.keijiban
+		// })
 
 		this.songs.push({
 			title: strings.selectSpeed,
