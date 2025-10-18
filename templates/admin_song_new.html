@@ -1,17 +1,24 @@
 {% extends 'admin.html' %}
 {% block content %}
 <h1>New song <small class="song-id">(ID: {{ id }})</small></h1>
+
 {% for message in get_flashed_messages() %}
 <div class="message">{{ message }}</div>
 {% endfor %}
+
 <div class="song-form">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+        <!-- Enabled -->
         <div class="form-field">
-            <span class="checkbox"><input type="checkbox" name="enabled" id="enabled" checked><label for="enabled"> Enabled</label></span>
+            <span class="checkbox">
+                <input type="checkbox" name="enabled" id="enabled" checked>
+                <label for="enabled"> Enabled</label>
+            </span>
         </div>
 
+        <!-- Title -->
         <div class="form-field">
             <p>Title</p>
             <label for="title">Original</label>
@@ -28,6 +35,7 @@
             <input type="text" id="title_ko" value="" name="title_ko">
         </div>
 
+        <!-- Subtitle -->
         <div class="form-field">
             <p>Subtitle</p>
             <label for="subtitle">Original</label>
@@ -44,25 +52,20 @@
             <input type="text" id="subtitle_ko" value="" name="subtitle_ko">
         </div>
 
+        <!-- Courses -->
         <div class="form-field">
             <p>Courses</p>
-            <label for="course_easy">Easy</label>
-            <input type="number" id="course_easy" value="" name="course_easy" min="0" max="10">
-            <span class="checkbox"><input type="checkbox" name="branch_easy" id="branch_easy" tabindex="-1"><label for="branch_easy"> Diverge Notes</label></span>
-            <label for="course_normal">Normal</label>
-            <input type="number" id="course_normal" value="" name="course_normal" min="0" max="10">
-            <span class="checkbox"><input type="checkbox" name="branch_normal" id="branch_normal" tabindex="-1"><label for="branch_normal"> Diverge Notes</label></span>
-            <label for="course_hard">Hard</label>
-            <input type="number" id="course_hard" value="" name="course_hard" min="0" max="10">
-            <span class="checkbox"><input type="checkbox" name="branch_hard" id="branch_hard" tabindex="-1"><label for="branch_hard"> Diverge Notes</label></span>
-            <label for="course_oni">Oni</label>
-            <input type="number" id="course_oni" value="" name="course_oni" min="0" max="10">
-            <span class="checkbox"><input type="checkbox" name="branch_oni" id="branch_oni" tabindex="-1"><label for="branch_oni"> Diverge Notes</label></span>
-            <label for="course_ura">Ura</label>
-            <input type="number" id="course_ura" value="" name="course_ura" min="0" max="10">
-            <span class="checkbox"><input type="checkbox" name="branch_ura" id="branch_ura" tabindex="-1"><label for="branch_ura"> Diverge Notes</label></span>
+            {% for course in ['easy','normal','hard','oni','ura'] %}
+                <label for="course_{{ course }}">{{ course.capitalize() }}</label>
+                <input type="number" id="course_{{ course }}" value="" name="course_{{ course }}" min="0" max="10">
+                <span class="checkbox">
+                    <input type="checkbox" name="branch_{{ course }}" id="branch_{{ course }}" tabindex="-1">
+                    <label for="branch_{{ course }}"> Diverge Notes</label>
+                </span>
+            {% endfor %}
         </div>
 
+        <!-- Category -->
         <div class="form-field">
             <p><label for="category_id">Category</label></p>
             <select name="category_id" id="category_id">
@@ -73,6 +76,7 @@
             </select>
         </div>
 
+        <!-- Chart Type -->
         <div class="form-field">
             <p><label for="type">Chart type</label></p>
             <select name="type" id="type">
@@ -81,6 +85,7 @@
             </select>
         </div>
 
+        <!-- Music Type -->
         <div class="form-field">
             <p><label for="music_type">Music type</label></p>
             <select name="music_type" id="music_type">
@@ -89,11 +94,13 @@
             </select>
         </div>
 
+        <!-- Offset -->
         <div class="form-field">
             <p><label for="offset">Offset</label></p>
             <input type="text" id="offset" value="0" name="offset" required>
         </div>
 
+        <!-- Skin -->
         <div class="form-field">
             <p><label for="skin_id">Skin</label></p>
             <select name="skin_id" id="skin_id">
@@ -104,16 +111,19 @@
             </select>
         </div>
 
+        <!-- Preview -->
         <div class="form-field">
             <p><label for="preview">Preview</label></p>
             <input type="text" id="preview" value="" name="preview" required>
         </div>
 
+        <!-- Volume -->
         <div class="form-field">
             <p><label for="volume">Volume</label></p>
             <input type="text" id="volume" value="1.0" name="volume" required>
         </div>
 
+        <!-- Maker -->
         <div class="form-field">
             <p><label for="maker_id">Maker</label></p>
             <select name="maker_id" id="maker_id">
@@ -124,14 +134,35 @@
             </select>
         </div>
 
+        <!-- Lyrics -->
         <div class="form-field">
             <p><label for="lyrics">Lyrics</label></p>
-            <span class="checkbox"><input type="checkbox" name="lyrics" id="lyrics"><label for="lyrics"> Enabled</label></span>
+            <span class="checkbox">
+                <input type="checkbox" name="lyrics" id="lyrics">
+                <label for="lyrics"> Enabled</label>
+            </span>
         </div>
 
+        <!-- Hash -->
         <div class="form-field">
             <p><label for="hash">Hash</label></p>
-            <input type="text" id="hash" value="" name="hash"> <span class="checkbox"><input type="checkbox" name="gen_hash" id="gen_hash"><label for="gen_hash"> Generate</label></span>
+            <input type="text" id="hash" value="" name="hash">
+            <span class="checkbox">
+                <input type="checkbox" name="gen_hash" id="gen_hash">
+                <label for="gen_hash"> Generate</label>
+            </span>
+        </div>
+
+        <!-- TJA File -->
+        <div class="form-field">
+            <p><label for="file_tja">TJA File</label></p>
+            <input type="file" name="file_tja" id="file_tja" accept=".tja" required>
+        </div>
+
+        <!-- Music File -->
+        <div class="form-field">
+            <p><label for="file_music">Music File</label></p>
+            <input type="file" name="file_music" id="file_music" accept=".ogg,.mp3,.wav" required>
         </div>
 
         <button type="submit" class="save-song">Save</button>

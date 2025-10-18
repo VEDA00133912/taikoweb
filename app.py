@@ -24,7 +24,7 @@ from flask_limiter import Limiter
 import flask
 import nkf
 import tjaf
-
+from werkzeug.utils import secure_filename
 # ----
 
 from functools import wraps
@@ -323,16 +323,18 @@ def route_admin_songs_new_post():
     output['title'] = request.form.get('title') or None
     output['subtitle'] = request.form.get('subtitle') or None
     for lang in ['ja', 'en', 'cn', 'tw', 'ko']:
-        output['title_lang'][lang] = request.form.get('title_%s' % lang) or None
-        output['subtitle_lang'][lang] = request.form.get('subtitle_%s' % lang) or None
+        output['title_lang'][lang] = request.form.get(f'title_{lang}') or None
+        output['subtitle_lang'][lang] = request.form.get(f'subtitle_{lang}') or None
 
     for course in ['easy', 'normal', 'hard', 'oni', 'ura']:
-        if request.form.get('course_%s' % course):
-            output['courses'][course] = {'stars': int(request.form.get('course_%s' % course)),
-                                         'branch': True if request.form.get('branch_%s' % course) else False}
+        if request.form.get(f'course_{course}'):
+            output['courses'][course] = {
+                'stars': int(request.form.get(f'course_{course}')),
+                'branch': True if request.form.get(f'branch_{course}') else False
+            }
         else:
             output['courses'][course] = None
-    
+
     output['category_id'] = int(request.form.get('category_id')) or None
     output['type'] = request.form.get('type')
     output['music_type'] = request.form.get('music_type')
@@ -342,31 +344,43 @@ def route_admin_songs_new_post():
     output['volume'] = float(request.form.get('volume')) or None
     output['maker_id'] = int(request.form.get('maker_id')) or None
     output['lyrics'] = True if request.form.get('lyrics') else False
-    output['video'] = True if request.form.get('video') else False
     output['hash'] = request.form.get('hash')
-    
+
     seq = db.seq.find_one({'name': 'songs'})
     seq_new = seq['value'] + 1 if seq else 1
-    
+    output['id'] = seq_new
+    output['order'] = seq_new
+
     hash_error = False
     if request.form.get('gen_hash'):
         try:
             output['hash'] = generate_hash(seq_new, request.form)
         except HashException as e:
             hash_error = True
-            flash('An error occurred: %s' % str(e), 'error')
-    
-    output['id'] = seq_new
-    output['order'] = seq_new
-    
+            flash(f'An error occurred: {str(e)}', 'error')
+
+    target_dir = pathlib.Path("public/songs") / str(seq_new)
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    file_tja = request.files.get('file_tja')
+    if file_tja and file_tja.filename:
+        filename_tja = secure_filename(file_tja.filename)
+        file_tja.save(target_dir / "main.tja")
+
+    file_music = request.files.get('file_music')
+    if file_music and file_music.filename:
+        filename_music = secure_filename(file_music.filename)
+        ext = pathlib.Path(filename_music).suffix[1:]
+        file_music.save(target_dir / f"main.{ext}")
+        output['music_type'] = ext
+
     db.songs.insert_one(output)
     if not hash_error:
         flash('Song created.')
-    
+
     db.seq.update_one({'name': 'songs'}, {'$set': {'value': seq_new}}, upsert=True)
     
-    return redirect(basedir + 'admin/songs/%s' % str(seq_new))
-
+    return redirect(basedir + f'admin/songs/{seq_new}')
 
 @app.route(basedir + 'admin/songs/<int:id>', methods=['POST'])
 @admin_required(level=50)
@@ -421,7 +435,6 @@ def route_admin_songs_id_post(id):
     
     return redirect(basedir + 'admin/songs/%s' % id)
 
-
 @app.route(basedir + 'admin/songs/<int:id>/delete', methods=['POST'])
 @limiter.limit("1 per day")
 @admin_required(level=100)
@@ -431,6 +444,11 @@ def route_admin_songs_id_delete(id):
         return abort(404)
 
     db.songs.delete_one({'id': id})
+
+    song_dir = Path('public/songs') / str(id)
+    if song_dir.exists() and song_dir.is_dir():
+        shutil.rmtree(song_dir)
+
     flash('Song deleted.')
     return redirect(basedir + 'admin/songs')
 

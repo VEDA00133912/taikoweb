@@ -2,9 +2,9 @@ body {
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
     background: #FF7F00;
-  }
-  
-  .nav {
+}
+
+.nav {
     margin: 0;
     padding: 0;
     width: 200px;
@@ -12,58 +12,59 @@ body {
     position: fixed;
     height: 100%;
     overflow: auto;
-  }
-  
-  .nav a {
+}
+
+.nav a {
     display: block;
     color: #FFF;
     padding: 16px;
     text-decoration: none;
-  }
-   
-  .nav a.active {
+}
+
+.nav a.active {
     background-color: #4CAF50;
     color: white;
-  }
-  
-  .nav a:hover:not(.active) {
+}
+
+.nav a:hover:not(.active) {
     background-color: #555;
     color: white;
-  }
-  
+}
+
 main {
     margin-left: 200px;
     padding: 1px 16px;
-    height: 1000px;
-  }
-  
-  @media screen and (max-width: 700px) {
+    min-height: 100vh;
+}
+
+@media screen and (max-width: 700px) {
     .nav {
-      width: 100%;
-      height: auto;
-      position: relative;
+        width: 100%;
+        height: auto;
+        position: relative;
     }
     .nav a {float: left;}
     main {margin-left: 0;}
-  }
-  
-  @media screen and (max-width: 400px) {
-    .sidebar a {
-      text-align: center;
-      float: none;
-    }
-  }
+}
 
-  .container {
-      margin-bottom: 40px;
-  }
+@media screen and (max-width: 400px) {
+    .nav a {
+        text-align: center;
+        float: none;
+    }
+}
+
+.container {
+    margin-bottom: 40px;
+}
 
 .song {
     background: #F84828;
     color: white;
-    padding: 10px;
+    padding: 15px 20px;
     font-size: 14pt;
     margin: 10px 0;
+    border-radius: 8px;
 }
 
 .song p {
@@ -77,34 +78,42 @@ main {
 .song-form {
     background: #ff5333;
     color: #FFF;
-    padding: 20px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .form-field {
     background: #555555;
     padding: 15px 20px 20px 20px;
     margin-bottom: 20px;
+    border-radius: 8px;
 }
 
 .form-field p {
     margin: 0;
     font-size: 18pt;
+    margin-bottom: 10px;
 }
 
- .form-field > label {
+.form-field > label {
     display: block;
+    margin-top: 5px;
 }
 
-.form-field input {
+.form-field input,
+.form-field select {
     margin: 5px 0;
-}
-
-.form-field input[type="text"] {
-    width: 300px;
+    padding: 5px;
+    font-size: 14pt;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-field input[type="number"] {
-    width: 50px;
+    width: 60px;
 }
 
 h1 .song-id {
@@ -120,12 +129,16 @@ h1 .song-id {
 }
 
 .checkbox {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.checkbox input {
-    margin-right: 3px;
-    margin-left: 5px;
+.checkbox input[type="checkbox"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
 }
 
 .message {
@@ -133,6 +146,7 @@ h1 .song-id {
     padding: 15px;
     margin-bottom: 10px;
     color: white;
+    border-radius: 6px;
 }
 
 .message-error {
@@ -141,7 +155,18 @@ h1 .song-id {
 
 .save-song {
     font-size: 22pt;
-    width: 120px;
+    width: 140px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.save-song:hover {
+    background-color: #45a049;
 }
 
 .delete-song button {
@@ -157,4 +182,5 @@ h1 .song-id {
     color: white;
     text-decoration: none;
     margin-top: 25px;
+    border-radius: 6px;
 }
