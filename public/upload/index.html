@@ -1,25 +1,50 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>太鼓ウェブあっぷろーだー</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="upload.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Taikoweb 譜面あっぷろーだー</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="upload.js" defer></script>
   </head>
   <body>
-    <h1>太鼓ウェブあっぷろーだー</h1>
+    <main>
+      <h1>譜面あっぷろーだー</h1>
 
-    <form id="upload-form" enctype="multipart/form-data">
-      <label for="file_tja">TJA ファイル:</label>
-      <input type="file" name="file_tja" accept=".tja" required>
+      <p class="description">
+        <strong>.tja</strong>と<strong>音楽ファイル</strong>を選んで投稿！<br />
+        1分ほどかかる場合があります
+      </p>
 
-      <label for="file_music">音楽ファイル:</label>
-      <input type="file" name="file_music" accept=".ogg,.mp3,.wav" required>
-    </form>
+      <form id="upload-form" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="file_tja">TJA ファイル</label>
+          <input
+            type="file"
+            id="file_tja"
+            name="file_tja"
+            accept=".tja"
+            required
+          />
+        </div>
 
-    <button type="button" onclick="uploadFiles()">今すぐ投稿！ (1分ほどかかる場合があります)</button>
+        <div class="form-group">
+          <label for="file_music">音楽ファイル</label>
+          <input
+            type="file"
+            id="file_music"
+            name="file_music"
+            accept="audio/*"
+            required
+          />
+        </div>
 
-    <div id="error-view"></div>
+        <button type="button" id="upload-button" onclick="uploadFiles()">
+          🚀 今すぐ投稿！
+        </button>
+      </form>
+
+      <div id="error-view"></div>
+    </main>
   </body>
 </html>
