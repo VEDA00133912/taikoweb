@@ -1400,135 +1400,186 @@
 		ctx.restore()
 	}
 	
-	gauge(config){
-		var ctx = config.ctx
-		ctx.save()
-		
-		ctx.translate(config.x, config.y)
-		if(config.scale){
-			ctx.scale(config.scale, config.scale)
-		}
-		ctx.translate(-788, 0)
-		
-		var firstTop = config.multiplayer ? 0 : 30
-		var secondTop = config.multiplayer ? 0 : 8
-		
-		config.percentage = Math.max(0, Math.min(1, config.percentage))
-		var cleared = config.percentage >= config.clear
-		
-		var gaugeW = 14 * 50
-		var gaugeClear = gaugeW * (config.clear - 1 / 50)
-		var gaugeFilled = gaugeW * config.percentage
-		
-		ctx.fillStyle = "#000"
-		ctx.beginPath()
-		if(config.scoresheet){
-			if(config.multiplayer){
-				ctx.moveTo(-4, -4)
-				ctx.lineTo(760, -4)
-				this.roundedCorner(ctx, 760, 48, 13, 2)
-				this.roundedCorner(ctx, gaugeClear - 4, 48, 13, 3)
-				ctx.lineTo(gaugeClear - 4, 26)
-				ctx.lineTo(-4, 26)
-			}else{
-				ctx.moveTo(-4, 26)
-				ctx.lineTo(gaugeClear - 4, 26)
-				this.roundedCorner(ctx, gaugeClear - 4, 4, 13, 0)
-				this.roundedCorner(ctx, 760, 4, 13, 1)
-				ctx.lineTo(760, 56)
-				ctx.lineTo(-4, 56)
-			}
-		}else if(config.multiplayer){
-			ctx.moveTo(gaugeClear - 7, 27)
-			ctx.lineTo(788, 27)
-			ctx.lineTo(788, 52)
-			this.roundedCorner(ctx, gaugeClear - 7, 52, 18, 3)
-		}else{
-			ctx.moveTo(gaugeClear - 7, 24)
-			this.roundedCorner(ctx, gaugeClear - 7, 0, 18, 0)
-			ctx.lineTo(788, 0)
-			ctx.lineTo(788, 24)
-		}
-		ctx.fill()
-		
-		if(!cleared){
-			ctx.fillStyle = config.blue ? "#184d55" : "#680000"
-			var x = Math.max(0, gaugeFilled - 5)
-			ctx.fillRect(x, firstTop, gaugeClear - x + 2 + (gaugeClear < gaugeW ? 0 : -7), 22)
-		}
-		if(gaugeFilled > 0){
-			var w = Math.min(gaugeW - 5, gaugeClear + 1, gaugeFilled - 4)
-			ctx.fillStyle = config.blue ? "#00edff" : "#ff3408"
-			ctx.fillRect(0, firstTop + 2, w, 20)
-			ctx.fillStyle = config.blue ? "#9cffff" : "#ffa191"
-			ctx.fillRect(0, firstTop, w, 3)
-		}
-		if(gaugeClear < gaugeW){
-			if(gaugeFilled < gaugeW - 4){
-				ctx.fillStyle = "#684900"
-				var x = Math.max(gaugeClear + 9, gaugeFilled - gaugeClear + 9)
-				ctx.fillRect(x, secondTop, gaugeW - 4 - x, 44)
-			}
-			if(gaugeFilled > gaugeClear + 14){
-				var w = Math.min(gaugeW - 4, gaugeFilled - gaugeClear - 14)
-				ctx.fillStyle = "#ff0"
-				ctx.fillRect(gaugeClear + 9, secondTop + 2, w, 42)
-				ctx.fillStyle = "#fff"
-				ctx.fillRect(gaugeClear + 9, secondTop, w, 3)
-			}
-			ctx.fillStyle = cleared ? "#ff0" : "#684900"
-			ctx.beginPath()
-			if(config.multiplayer){
-				this.roundedCorner(ctx, gaugeClear, secondTop + 44, 10, 3)
-				ctx.lineTo(gaugeClear, secondTop)
-				ctx.lineTo(gaugeClear + 10, secondTop)
-			}else{
-				ctx.moveTo(gaugeClear, secondTop + 44)
-				this.roundedCorner(ctx, gaugeClear, secondTop, 10, 0)
-				ctx.lineTo(gaugeClear + 10, secondTop + 44)
-			}
-			ctx.fill()
-		}
-		if(cleared){
-			ctx.save()
-			ctx.clip()
-			ctx.fillStyle = "#fff"
-			ctx.fillRect(gaugeClear, secondTop, 10, 3)
-			ctx.restore()
-		}
-		
-		ctx.strokeStyle = "rgba(0, 0, 0, 0.16)"
-		ctx.beginPath()
-		ctx.lineWidth = 5
-		for(var i = 0; i < 49; i++){
-			var x = 14 + i * 14 - ctx.lineWidth / 2
-			if(i === config.clear * 50 - 1){
-				ctx.stroke()
-				ctx.beginPath()
-				ctx.lineWidth = 4
-			}
-			ctx.moveTo(x, x < gaugeClear ? firstTop : secondTop)
-			ctx.lineTo(x, x < gaugeClear ? firstTop + 22 : secondTop + 44)
-		}
-		ctx.stroke()
-		if(config.clear < 47 / 50){
-			this.layeredText({
-				ctx: ctx,
-				text: strings.clear,
-				fontSize: 18,
-				fontFamily: config.font,
-				x: gaugeClear + 3,
-				y: config.multiplayer ? 22 : 11,
-				letterSpacing: -2
-			}, [
-				{scale: [1.1, 1.01], outline: "#000", letterBorder: 6},
-				{scale: [1.11, 1], fill: cleared ? "#fff" : "#737373"}
-			])
-		}
-		
-		ctx.restore()
-	}
-	
+gauge(config){
+    var ctx = config.ctx
+    ctx.save()
+    
+    ctx.translate(config.x, config.y)
+    if(config.scale){
+        ctx.scale(config.scale, config.scale)
+    }
+    ctx.translate(-788, 0)
+    
+    var firstTop = config.multiplayer ? 0 : 30
+    var secondTop = config.multiplayer ? 0 : 8
+    
+    config.percentage = Math.max(0, Math.min(1, config.percentage))
+    var cleared = config.percentage >= config.clear
+    
+    var gaugeW = 14 * 50
+    var gaugeClear = gaugeW * (config.clear - 1 / 50)
+    var gaugeFilled = gaugeW * config.percentage
+    
+    ctx.fillStyle = "#000"
+    ctx.beginPath()
+    if(config.scoresheet){
+        if(config.multiplayer){
+            ctx.moveTo(-4, -4)
+            ctx.lineTo(760, -4)
+            this.roundedCorner(ctx, 760, 48, 13, 2)
+            this.roundedCorner(ctx, gaugeClear - 4, 48, 13, 3)
+            ctx.lineTo(gaugeClear - 4, 26)
+            ctx.lineTo(-4, 26)
+        }else{
+            ctx.moveTo(-4, 26)
+            ctx.lineTo(gaugeClear - 4, 26)
+            this.roundedCorner(ctx, gaugeClear - 4, 4, 13, 0)
+            this.roundedCorner(ctx, 760, 4, 13, 1)
+            ctx.lineTo(760, 56)
+            ctx.lineTo(-4, 56)
+        }
+    }else if(config.multiplayer){
+        ctx.moveTo(gaugeClear - 7, 27)
+        ctx.lineTo(788, 27)
+        ctx.lineTo(788, 52)
+        this.roundedCorner(ctx, gaugeClear - 7, 52, 18, 3)
+    }else{
+        ctx.moveTo(gaugeClear - 7, 24)
+        this.roundedCorner(ctx, gaugeClear - 7, 0, 18, 0)
+        ctx.lineTo(788, 0)
+        ctx.lineTo(788, 24)
+    }
+    ctx.fill()
+    
+    if(!cleared){
+        ctx.fillStyle = config.blue ? "#184d55" : "#680000"
+        var x = Math.max(0, gaugeFilled - 5)
+        ctx.fillRect(x, firstTop, gaugeClear - x + 2 + (gaugeClear < gaugeW ? 0 : -7), 22)
+    }
+    if(gaugeFilled > 0){
+        var w = Math.min(gaugeW - 5, gaugeClear + 1, gaugeFilled - 4)
+        ctx.fillStyle = config.blue ? "#00edff" : "#ff3408"
+        ctx.fillRect(0, firstTop + 2, w, 20)
+        ctx.fillStyle = config.blue ? "#9cffff" : "#ffa191"
+        ctx.fillRect(0, firstTop, w, 3)
+    }
+    if(gaugeClear < gaugeW){
+        if(gaugeFilled < gaugeW - 4){
+            ctx.fillStyle = "#684900"
+            var x = Math.max(gaugeClear + 9, gaugeFilled - gaugeClear + 9)
+            ctx.fillRect(x, secondTop, gaugeW - 4 - x, 44)
+        }
+        if(gaugeFilled > gaugeClear + 14){
+            var w = Math.min(gaugeW - 4, gaugeFilled - gaugeClear - 14)
+            ctx.fillStyle = "#ff0"
+            ctx.fillRect(gaugeClear + 9, secondTop + 2, w, 42)
+            ctx.fillStyle = "#fff"
+            ctx.fillRect(gaugeClear + 9, secondTop, w, 3)
+        }
+        ctx.beginPath()
+        if(config.percentage === 1){
+			let colors = ['#58dae0','#55afed','#9233f6','#f46584','#f79a70','#e6e071','#8ef491','#60eeb0']
+            if(!this.lineAnimationIndex) this.lineAnimationIndex = 0
+            if(!this.lineFrameCount) this.lineFrameCount = 0
+            if(this.lineFrameCount % 7 === 0){
+                this.lineAnimationIndex = (this.lineAnimationIndex + 1) % colors.length
+            }
+            let index = this.lineAnimationIndex
+            let gradient = ctx.createLinearGradient(gaugeClear, secondTop, gaugeClear + 10, secondTop)
+            for(let i = 0; i < colors.length; i++){
+                gradient.addColorStop(1 - i / (colors.length - 1), colors[(i + index) % colors.length])
+            }
+            ctx.fillStyle = gradient
+            this.lineFrameCount++
+        }else{
+            ctx.fillStyle = cleared ? "#ff0" : "#684900"
+        }
+        if(config.multiplayer){
+            this.roundedCorner(ctx, gaugeClear, secondTop + 44, 10, 3)
+            ctx.lineTo(gaugeClear, secondTop)
+            ctx.lineTo(gaugeClear + 10, secondTop)
+        }else{
+            ctx.moveTo(gaugeClear, secondTop + 44)
+            this.roundedCorner(ctx, gaugeClear, secondTop, 10, 0)
+            ctx.lineTo(gaugeClear + 10, secondTop + 44)
+        }
+        ctx.fill()
+    }
+    if(cleared){
+        ctx.save()
+        ctx.clip()
+        ctx.fillStyle = "#fff"
+        ctx.fillRect(gaugeClear, secondTop, 10, 3)
+        ctx.restore()
+    }
+    
+    if(config.percentage === 1){
+        let colors = ['#f46584','#f79a70','#e6e071','#8ef491','#60eeb0','#58dae0','#55afed','#9233f6']
+        if(!this.barAnimationIndex) this.barAnimationIndex = 0
+        if(!this.barFrameCount) this.barFrameCount = 0
+        if(this.barFrameCount % 5 === 0){
+            this.barAnimationIndex = (this.barAnimationIndex + 1) % colors.length
+        }
+        let index = this.barAnimationIndex
+        let totalLength = Math.min(gaugeW - 5, gaugeClear + 1, gaugeFilled - 4) + Math.min(gaugeW - 4, gaugeFilled - gaugeClear - 14)
+        let gradient = ctx.createLinearGradient(0, firstTop, totalLength, firstTop)
+        for(let i = 0; i < colors.length; i++){
+            gradient.addColorStop(1 - i / (colors.length - 1), colors[(i + index) % colors.length])
+        }
+        ctx.fillStyle = gradient
+        ctx.fillRect(0, firstTop, totalLength, 22)
+        
+        if(gaugeFilled > gaugeClear + 14){
+            let w = Math.min(gaugeW - 4, gaugeFilled - gaugeClear - 14)
+            let yellowGradient = ctx.createLinearGradient(0, secondTop, gaugeW, secondTop)
+            for(let i = 0; i < colors.length; i++){
+                yellowGradient.addColorStop(1 - i / (colors.length - 1), colors[(i + index) % colors.length])
+            }
+            ctx.fillStyle = yellowGradient
+            ctx.fillRect(gaugeClear + 9, secondTop + 2, w, 42)
+            
+            let glossGradient = ctx.createLinearGradient(0, secondTop, gaugeW, secondTop)
+            glossGradient.addColorStop(0, colors[index % colors.length])
+            glossGradient.addColorStop(1, colors[(index + 1) % colors.length])
+            ctx.fillStyle = glossGradient
+            ctx.fillRect(gaugeClear + 9, secondTop, w, 3)
+        }
+        this.barFrameCount++
+    }
+    
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.16)"
+    ctx.beginPath()
+    ctx.lineWidth = 5
+    for(var i = 0; i < 49; i++){
+        var x = 14 + i * 14 - ctx.lineWidth / 2
+        if(i === config.clear * 50 - 1){
+            ctx.stroke()
+            ctx.beginPath()
+            ctx.lineWidth = 4
+        }
+        ctx.moveTo(x, x < gaugeClear ? firstTop : secondTop)
+        ctx.lineTo(x, x < gaugeClear ? firstTop + 22 : secondTop + 44)
+    }
+    ctx.stroke()
+    if(config.clear < 47 / 50){
+        this.layeredText({
+            ctx: ctx,
+            text: strings.clear,
+            fontSize: 18,
+            fontFamily: config.font,
+            x: gaugeClear + 3,
+            y: config.multiplayer ? 22 : 11,
+            letterSpacing: -2
+        }, [
+            {scale: [1.1, 1.01], outline: "#000", letterBorder: 6},
+            {scale: [1.11, 1], fill: cleared ? "#fff" : "#737373"}
+        ])
+    }
+    
+    ctx.restore()
+}
+
+
 	soul(config){
 		var ctx = config.ctx
 		ctx.save()
