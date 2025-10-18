@@ -3018,6 +3018,9 @@ class SongSelect{
 		var skin = null
 		var categoryName = ""
 		var originalCategory = ""
+		if (song.category_id === null || song.category_id === undefined) {
+			song.category_id = 8
+		}
 		if(song.category_id !== null && song.category_id !== undefined){
 			var category = assets.categories.find(cat => cat.id === song.category_id)
 			var categoryName = this.getLocalTitle(category.title, category.title_lang)

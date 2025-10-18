@@ -154,4 +154,26 @@
 		"namco",
 		"namcooriginal"
 	]
+}, {
+	"id": 8,
+	"title": "CustomChart",
+	"title_lang": {
+		"ja": "創作譜面",
+		"en": "Custom chart",
+		"cn": "创作",
+		"tw": "創作譜面",
+		"ko": "창작"
+	},
+	"song_skin": {
+		"sort": 8,
+		"background": "#68eab3",
+		"border": ["#55d9c2", "#43c8d2"],
+		"outline": "#33b8e0",
+		"info_fill": "#33b8e0",
+		"bg_img": "bg_genre_7.png"
+	},
+	"aliases": [
+		"sousaku",
+		"customchart"
+	]
 }]
