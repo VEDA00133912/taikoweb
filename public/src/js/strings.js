@@ -560,6 +560,13 @@ var translations = {
 			"「곡 선택」으로"
 		]
 	},
+	convertLyrics: {
+		ja: "歌詞をVTT形式でダウンロード",
+		en: "Download Lyrics as VTT",
+		cn: "下载歌词为 VTT 格式",
+		tw: "下載歌詞為 VTT 格式",
+		ko: "가사를 VTT 형식으로 다운로드"
+	},
 	results: {
 		ja: "成績発表",
 		en: "Results",
